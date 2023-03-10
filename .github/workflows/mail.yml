@@ -1,7 +1,8 @@
-name: Run tests against STAG and PROD environment
+name: Run tests against DEV environment
 on:
   push:
-    branches: [stag, master]
+    branches:
+      - dev
 
 jobs:
   Test-on-Chrome:
@@ -20,7 +21,7 @@ jobs:
           with:
             record: true
             parallel: true
-            command: "npm run cy:stag:chrome"
+            command: "npm run cy:dev:chrome"
           env:
             CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
@@ -61,7 +62,7 @@ jobs:
           with:
             record: true
             parallel: true
-            command: "npm run cy:stag:firefox"
+            command: "npm run cy:dev:firefox"
           env:
             CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
