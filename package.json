@@ -1,0 +1,35 @@
+{
+  "name": "cyframework",
+  "version": "1.0.0",
+  "description": "--- ## Description: We have a simple ToDo application deployed in different environments:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:dev:chrome": "cypress run --config baseUrl=http://devtodo.monfared.io/ --browser chrome --record",
+    "cy:stag:chrome": "cypress run --config baseUrl=http://stagtodo.monfared.io/ --browser chrome --record",
+    "cy:dev:firefox": "cypress run --config baseUrl=http://devtodo.monfared.io/ --browser firefox --record",
+    "cy:stag:firefox": "cypress run --config baseUrl=http://stagtodo.monfared.io/ --browser firefox --record",
+    "cy:headed": "cypress run --config baseUrl=http://devtodo.monfared.io/ --headed",
+    "cy:test": "cypress run --config baseUrl=http://devtodo.monfared.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmonfared/CyFramework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmonfared/CyFramework/issues"
+  },
+  "homepage": "https://github.com/mmonfared/CyFramework#readme",
+  "devDependencies": {
+    "cypress": "^12.7.0",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-mochawesome-reporter": "^3.3.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "step_definitions": "cypress/support/step_definitions/",
+    "nonGlobalStepDefinitions": false
+  }
+}

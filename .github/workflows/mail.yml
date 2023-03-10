@@ -1,0 +1,88 @@
+name: Run tests against STAG and PROD environment
+on:
+  push:
+    branches: [stag, master]
+
+jobs:
+  Test-on-Chrome:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout GitCode
+          uses: actions/checkout@v3.3.0
+
+        - name: Install dependencies
+          uses: cypress-io/github-action@v5.0.8
+          with:
+            runTests: false
+
+        - name: Run Cypress Tests
+          uses: cypress-io/github-action@v5.0.8
+          with:
+            record: true
+            parallel: true
+            command: "npm run cy:stag:chrome"
+          env:
+            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+        - name: Upload Videos to Build Artifacts
+          uses: actions/upload-artifact@v3.1.2
+          if: always()
+          with:
+            name: cypress-videos-chrome
+            path: "${{ github.workspace }}/cypress/reports/videos/"
+
+        - name: Upload Screenshots to Build Artifacts
+          uses: actions/upload-artifact@v3.1.2
+          if: failure()
+          with:
+            name: cypress-screenshots-chrome
+            path: "${{ github.workspace }}/cypress/reports/screenshots/"
+
+        - name: Upload Mocha report to Build Artifacts
+          uses: actions/upload-artifact@v3.1.2
+          if: always()
+          with:
+            name: cypress-mocha-chrome
+            path: "${{ github.workspace }}/cypress/reports/html/"
+
+  Test-on-Firefox:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout GitCode
+          uses: actions/checkout@v3.3.0
+
+        - name: Install dependencies
+          uses: cypress-io/github-action@v5.0.8
+          with:
+            runTests: false
+
+        - name: Run Cypress Tests
+          uses: cypress-io/github-action@v5.0.8
+          with:
+            record: true
+            parallel: true
+            command: "npm run cy:stag:firefox"
+          env:
+            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+        # Known issue: doesn't record video for Firefox (https://github.com/cypress-io/cypress/issues/18415)
+        - name: Upload Videos to Build Artifacts
+          uses: actions/upload-artifact@v3.1.2
+          if: always()
+          with:
+            name: cypress-videos-firefox
+            path: "${{ github.workspace }}/cypress/reports/videos/"
+
+        - name: Upload Screenshots to Build Artifacts
+          uses: actions/upload-artifact@v3.1.2
+          if: failure()
+          with:
+            name: cypress-screenshots-firefox
+            path: "${{ github.workspace }}/cypress/reports/screenshots/"
+
+        - name: Upload Mocha report to Build Artifacts
+          uses: actions/upload-artifact@v3.1.2
+          if: always()
+          with:
+            name: cypress-mocha-firefox
+            path: "${{ github.workspace }}/cypress/reports/html/"
