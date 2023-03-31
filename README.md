@@ -1,5 +1,6 @@
 # Cypress Framework Boilerplate 
 ## By **Mohammad Monfared** | [LinkedIn](https://www.linkedin.com/in/mohammad-monfared) | [YouTube](https://www.youtube.com/automationcamp) | [Website](http://www.monfared.io/)
+## Workshop Record: [YouTube Video](https://www.youtube.com/watch?v=9o7LZRmj2zc)
 ---
 ## Description:
 We have a simple ToDo application deployed in different environments:
