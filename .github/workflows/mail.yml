@@ -1,7 +1,8 @@
-name: Run tests against STAG and PROD environment
+name: Run tests against DEV environment
 on:
   push:
-    branches: [stag, master]
+    branches:
+      - dev
 
 jobs:
   Test-on-Chrome:
@@ -20,31 +21,31 @@ jobs:
           with:
             record: true
             parallel: true
-            command: "npm run cy:stag:chrome"
+            command: "npm run cy:dev:chrome"
           env:
             CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
+        
         - name: Upload Videos to Build Artifacts
           uses: actions/upload-artifact@v3.1.2
           if: always()
           with:
             name: cypress-videos-chrome
             path: "${{ github.workspace }}/cypress/reports/videos/"
-
+          
         - name: Upload Screenshots to Build Artifacts
           uses: actions/upload-artifact@v3.1.2
           if: failure()
           with:
             name: cypress-screenshots-chrome
             path: "${{ github.workspace }}/cypress/reports/screenshots/"
-
+        
         - name: Upload Mocha report to Build Artifacts
           uses: actions/upload-artifact@v3.1.2
           if: always()
           with:
             name: cypress-mocha-chrome
             path: "${{ github.workspace }}/cypress/reports/html/"
-
+            
   Test-on-Firefox:
     runs-on: ubuntu-latest
     steps:
@@ -61,11 +62,11 @@ jobs:
           with:
             record: true
             parallel: true
-            command: "npm run cy:stag:firefox"
+            command: "npm run cy:dev:firefox"
           env:
             CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
-        # Known issue: doesn't record video for Firefox (https://github.com/cypress-io/cypress/issues/18415)
+        
+        # Known issue: doesn't record video for Firefox (https://github.com/cypress-io/cypress/issues/18415)    
         - name: Upload Videos to Build Artifacts
           uses: actions/upload-artifact@v3.1.2
           if: always()
@@ -79,7 +80,7 @@ jobs:
           with:
             name: cypress-screenshots-firefox
             path: "${{ github.workspace }}/cypress/reports/screenshots/"
-
+        
         - name: Upload Mocha report to Build Artifacts
           uses: actions/upload-artifact@v3.1.2
           if: always()
