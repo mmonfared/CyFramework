@@ -55,7 +55,8 @@ npx cypress open
 ### Install
 
 ```
-npm install cypress-cucumber-preprocessor --save-dev
+npm install @bahmutov/cypress-esbuild-preprocessor --save-dev
+npm install @badeball/cypress-cucumber-preprocessor --save-dev
 ```
 
 ### add to config
@@ -63,17 +64,25 @@ npm install cypress-cucumber-preprocessor --save-dev
 `cypress.config.js`
 
 ```javascript
-const cucumber = require('cypress-cucumber-preprocessor').default
+const { defineConfig } = require("cypress");
+const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
+const preprocessor = require("@badeball/cypress-cucumber-preprocessor");
+const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      on('file:preprocessor', cucumber())
+      on("file:preprocessor",
+      createBundler({
+        plugins: [createEsbuildPlugin.default(config)],
+      }));
+      preprocessor.addCucumberPreprocessorPlugin(on, config);
+      return config;
     },
-    specPattern: '**/features/*.{feature,features}',
-    excludeSpecPattern: '**/pages/*',
+	specPattern: "**/*.feature",
   },
-})
+});
+
 ```
 
 ### configure the cypress-cucumber-preprocessor to using global step definitions
@@ -146,7 +155,7 @@ class TodoPage {
 `cypress/support/step_definitions/steps.js`
 
 ```javascript
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 import TodoPage from '../../e2e/pages/todoPage/todoPage'
 
@@ -277,7 +286,6 @@ npm install cypress-mochawesome-reporter --save-dev
 `cypress.config.js`
 
 ```javascript
-const cucumber = require('cypress-cucumber-preprocessor').default
 
 module.exports = defineConfig({
   e2e: {
