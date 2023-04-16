@@ -1,10 +1,8 @@
 {
   "name": "cyframework",
   "version": "1.0.0",
-  "description": "--- ## Description: We have a simple ToDo application deployed in different environments:",
-  "main": "index.js",
+  "description": "A test automation framework template using Cypress + BDD + POM + Reporter + Dashboard",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "cy:dev:chrome": "cypress run --config baseUrl=http://devtodo.monfared.io/ --browser chrome --record",
     "cy:stag:chrome": "cypress run --config baseUrl=http://stagtodo.monfared.io/ --browser chrome --record",
     "cy:dev:firefox": "cypress run --config baseUrl=http://devtodo.monfared.io/ --browser firefox --record",
@@ -24,8 +22,9 @@
   },
   "homepage": "https://github.com/mmonfared/CyFramework#readme",
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^16.0.3",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "cypress": "^12.7.0",
-    "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-mochawesome-reporter": "^3.3.0"
   },
   "cypress-cucumber-preprocessor": {
